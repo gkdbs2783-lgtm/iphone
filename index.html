@@ -3,16 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple iPhone Mockup</title>
+    <title>iPhone Lock Screen Mockup</title>
     <style>
       :root {
         --bg: #000000;
-        --phone-frame: #111827;
-        --panel: rgba(255, 255, 255, 0.08);
-        --panel-strong: rgba(255, 255, 255, 0.14);
-        --text: #f8fafc;
-        --muted: rgba(255,255,255,0.7);
-        --line: rgba(255,255,255,0.14);
+        --phone-frame: #0d0d0d;
+        --glass: rgba(255, 255, 255, 0.08);
+        --text: #f5f5f5;
+        --muted: rgba(255,255,255,0.68);
+        --line: rgba(255,255,255,0.18);
       }
 
       * { box-sizing: border-box; }
@@ -23,7 +22,7 @@
         min-height: 100vh;
         background: var(--bg);
         color: var(--text);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
       }
 
       body {
@@ -37,8 +36,8 @@
         height: min(92vh, 700px);
         padding: 12px 12px 16px;
         border-radius: 38px;
-        background: linear-gradient(145deg, #121821, #050816 45%, #151a24 100%);
-        box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        background: linear-gradient(145deg, #1a1a1a, #050505 45%, #121212 100%);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.55);
         position: relative;
       }
 
@@ -58,43 +57,36 @@
         height: 100%;
         border-radius: 32px;
         overflow: hidden;
-        background: linear-gradient(160deg, #1d4ed8 0%, #3b82f6 18%, #312e81 42%, #0f172a 100%);
-        border: 1px solid rgba(255,255,255,0.15);
-      }
-
-      .wallpaper {
-        position: absolute;
-        inset: 0;
-        background:
-          linear-gradient(180deg, rgba(15,23,42,0.28), rgba(15,23,42,0.08)),
-          radial-gradient(circle at 20% 20%, rgba(125,211,252,0.65), transparent 20%),
-          radial-gradient(circle at 80% 12%, rgba(216,180,254,0.7), transparent 18%),
-          linear-gradient(160deg, #1d4ed8 0%, #3b82f6 18%, #312e81 42%, #111827 100%);
+        background: #000;
+        border: 1px solid rgba(255,255,255,0.08);
       }
 
       .screen {
         position: relative;
         z-index: 1;
+        width: 100%;
+        height: 100%;
+        background: #000;
         display: flex;
         flex-direction: column;
-        height: 100%;
-        padding: 16px 16px 12px;
+        justify-content: flex-start;
+        padding: 18px 18px 20px;
       }
 
       .status-bar {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 2px 8px 8px;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 600;
-        color: rgba(255,255,255,0.95);
+        color: rgba(255,255,255,0.9);
+        padding: 0 8px 6px;
       }
 
       .status-icons {
         display: flex;
         align-items: center;
-        gap: 7px;
+        gap: 6px;
       }
 
       .signal {
@@ -148,7 +140,7 @@
         content: "";
         position: absolute;
         inset: 2px;
-        background: rgba(255,255,255,0.9);
+        background: rgba(255,255,255,0.92);
         border-radius: 2px;
       }
 
@@ -160,7 +152,7 @@
         width: 132px;
         height: 26px;
         border-radius: 18px;
-        background: rgba(0,0,0,0.82);
+        background: rgba(0,0,0,0.9);
         z-index: 20;
       }
 
@@ -172,245 +164,16 @@
         background: rgba(20,20,20,0.9);
       }
 
-      .topbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 8px 8px;
-      }
-
-      .time {
-        font-size: 46px;
-        font-weight: 300;
-        letter-spacing: -2px;
-        line-height: 1;
-      }
-
-      .weather {
-        font-size: 13px;
-        color: rgba(255,255,255,0.8);
-        margin-top: 6px;
-      }
-
-      .widget-bar {
-        display: flex;
-        gap: 8px;
-      }
-
-      .widget-pill {
-        background: rgba(255,255,255,0.14);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 999px;
-        padding: 7px 10px;
-        font-size: 11px;
-      }
-
-      .content {
-        flex: 1;
-        padding-top: 6px;
-      }
-
-      .widgets {
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
-        gap: 12px;
-        margin-bottom: 18px;
-      }
-
-      .panel {
-        background: rgba(15, 23, 42, 0.18);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 24px;
-        backdrop-filter: blur(16px);
-      }
-
-      .weather-card {
-        min-height: 160px;
-        padding: 14px 14px 12px;
-        background:
-          linear-gradient(160deg, rgba(255,255,255,0.14), rgba(255,255,255,0.08)),
-          linear-gradient(135deg, rgba(59,130,246,0.2), rgba(168,85,247,0.14));
-      }
-
-      .weather-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .weather-city {
-        font-size: 11px;
-        color: rgba(255,255,255,0.68);
-      }
-
-      .weather-temp {
-        margin-top: 16px;
-        display: flex;
-        align-items: baseline;
-      }
-
-      .temp-big {
-        font-size: 42px;
-        font-weight: 600;
-        line-height: 1;
-      }
-
-      .temp-unit {
-        font-size: 16px;
-        color: rgba(255,255,255,0.7);
-        margin-left: 4px;
-      }
-
-      .mini-icons {
-        display: flex;
-        gap: 10px;
-        margin-top: 18px;
-        font-size: 11px;
-        color: rgba(255,255,255,0.7);
-      }
-
-      .dot {
-        width: 8px;
-        height: 8px;
-        display: inline-block;
-        border-radius: 50%;
-      }
-
-      .sun { background: #fbbf24; }
-      .rain { background: #7dd3fc; }
-      .wind { background: #c4b5fd; }
-
-      .booking-card {
-        min-height: 160px;
-        padding: 12px 12px 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      .booking-label {
-        font-size: 11px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: rgba(255,255,255,0.7);
-      }
-
-      .booking-date {
-        font-size: 30px;
-        font-weight: 600;
-        margin-top: 12px;
-      }
-
-      .booking-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 11px;
-        color: rgba(255,255,255,0.8);
-      }
-
-      .booking-tag {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 52px;
-        height: 22px;
-        border-radius: 999px;
-        background: rgba(103, 232, 249, 0.18);
-        border: 1px solid rgba(103,232,249,0.4);
-      }
-
-      .apps {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px 10px;
-      }
-
-      .app {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        text-align: center;
-      }
-
-      .app-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 16px;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 8px 14px rgba(15,23,42,0.18);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .app-icon::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(255,255,255,0.24), transparent 45%);
-      }
-
-      .app-name {
-        font-size: 10px;
-        color: rgba(255,255,255,0.8);
-      }
-
-      .blue { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-      .purple { background: linear-gradient(135deg, #8b5cf6, #c084fc); }
-      .pink { background: linear-gradient(135deg, #f472b6, #f9a8d4); }
-      .green { background: linear-gradient(135deg, #10b981, #6ee7b7); }
-      .orange { background: linear-gradient(135deg, #f59e0b, #fcd34d); }
-      .gray { background: linear-gradient(135deg, #64748b, #cbd5e1); }
-      .teal { background: linear-gradient(135deg, #14b8a6, #67e8f9); }
-      .red { background: linear-gradient(135deg, #ef4444, #fca5a5); }
-
-      .dock {
-        position: absolute;
-        left: 50%;
-        bottom: 16px;
-        transform: translateX(-50%);
-        width: calc(100% - 32px);
-        height: 76px;
-        border-radius: 24px;
-        background: rgba(16, 24, 40, 0.32);
-        border: 1px solid rgba(255,255,255,0.12);
-        backdrop-filter: blur(18px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        padding: 0 12px;
-      }
-
-      .dock .app-icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 14px;
-      }
-
-      .home-indicator {
-        position: absolute;
-        bottom: 8px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 120px;
-        height: 4px;
-        border-radius: 99px;
-        background: rgba(255,255,255,0.9);
-        z-index: 30;
-      }
-
       .lock-screen {
         position: absolute;
         inset: 0;
         z-index: 40;
-        background: linear-gradient(180deg, rgba(2,9,22,0.8), rgba(10,22,40,0.88));
-        backdrop-filter: blur(8px);
+        background: #000;
+        padding: 58px 26px 36px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 52px 24px 30px;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        transition: opacity 0.28s ease, visibility 0.28s ease;
       }
 
       .lock-screen.hidden {
@@ -424,40 +187,32 @@
       }
 
       .lock-time {
-        font-size: 60px;
+        font-size: 62px;
         font-weight: 300;
         letter-spacing: -0.08em;
-        line-height: 0.9;
+        line-height: 1;
+        color: #fff;
       }
 
       .lock-date {
         margin-top: 10px;
-        color: rgba(255,255,255,0.75);
+        color: rgba(255,255,255,0.72);
         font-size: 14px;
       }
 
-      .lock-text {
-        margin-top: 18px;
-        color: rgba(255,255,255,0.8);
-        font-size: 11px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-
       .swipe-zone {
-        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 92px;
+        height: 90px;
         user-select: none;
       }
 
       .swipe-indicator {
-        width: 110px;
-        height: 5px;
+        width: 120px;
+        height: 6px;
         border-radius: 999px;
-        background: rgba(255,255,255,0.35);
+        background: rgba(255,255,255,1);
         position: relative;
         overflow: hidden;
       }
@@ -465,21 +220,20 @@
       .swipe-indicator::before {
         content: "";
         position: absolute;
-        inset: 0 auto 0 0;
-        width: 42%;
-        background: rgba(255,255,255,0.9);
-        border-radius: inherit;
+        inset: 0;
+        width: 100%;
+        background: rgba(255,255,255,1);
       }
 
       .passcode-panel {
         position: absolute;
         left: 14px;
         right: 14px;
-        bottom: 20px;
-        background: rgba(10, 18, 30, 0.56);
+        bottom: 18px;
+        background: rgba(255,255,255,0.06);
         border: 1px solid rgba(255,255,255,0.08);
         border-radius: 26px;
-        backdrop-filter: blur(18px);
+        backdrop-filter: blur(12px);
         padding: 16px 14px 12px;
         transform: translateY(18px);
         opacity: 0;
@@ -497,11 +251,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        color: rgba(255,255,255,0.74);
+        margin-bottom: 8px;
+        color: rgba(255,255,255,0.76);
         font-size: 11px;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        margin-bottom: 8px;
       }
 
       .passcode-dot-row {
@@ -516,7 +270,7 @@
         height: 12px;
         border-radius: 50%;
         background: rgba(255,255,255,0.18);
-        border: 1px solid rgba(255,255,255,0.18);
+        border: 1px solid rgba(255,255,255,0.12);
         transition: background 0.15s ease, transform 0.15s ease;
       }
 
@@ -536,14 +290,16 @@
         border: 0;
         border-radius: 16px;
         height: 48px;
-        background: rgba(255,255,255,0.07);
-        color: white;
+        background: rgba(255,255,255,0.06);
+        color: #fff;
         font-size: 20px;
         font-weight: 500;
         cursor: pointer;
       }
 
-      .key:active { transform: scale(0.98); }
+      .key:active {
+        transform: scale(0.98);
+      }
 
       .key.action {
         background: rgba(255,255,255,0.12);
@@ -563,12 +319,24 @@
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.35s ease, visibility 0.35s ease;
-        background: rgba(15, 23, 42, 0.2);
+        background: rgba(255,255,255,0.03);
       }
 
       .unlock-success.visible {
         opacity: 1;
         visibility: visible;
+      }
+
+      .home-indicator {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.9);
+        z-index: 30;
       }
 
       @media (max-width: 420px) {
@@ -577,7 +345,7 @@
           height: 100vh;
           border-radius: 0;
           padding: 0;
-          background: #020817;
+          background: #000;
         }
 
         .phone {
@@ -589,7 +357,6 @@
   <body>
     <div class="phone-shell">
       <div class="phone">
-        <div class="wallpaper"></div>
         <div class="notch"></div>
 
         <div class="screen">
@@ -601,106 +368,12 @@
               <span class="battery"></span>
             </div>
           </div>
-
-          <div class="topbar">
-            <div>
-              <div class="time" id="time">9:41</div>
-              <div class="weather">오늘은 맑고 화창해요</div>
-            </div>
-            <div class="widget-bar">
-              <div class="widget-pill">🔔 3</div>
-              <div class="widget-pill">☀️ 24°</div>
-            </div>
-          </div>
-
-          <div class="content">
-            <div class="widgets">
-              <div class="panel weather-card">
-                <div class="weather-row">
-                  <div class="weather-city">Seoul, KR</div>
-                  <div>☁️</div>
-                </div>
-                <div class="weather-temp">
-                  <span class="temp-big">24</span>
-                  <span class="temp-unit">°C</span>
-                </div>
-                <div class="mini-icons">
-                  <span><span class="dot sun"></span> 18°</span>
-                  <span><span class="dot rain"></span> 5%</span>
-                  <span><span class="dot wind"></span> 2km/h</span>
-                </div>
-              </div>
-
-              <div class="panel booking-card">
-                <div>
-                  <div class="booking-label">Today</div>
-                  <div class="booking-date">12</div>
-                </div>
-                <div class="bookings">
-                  <div class="booking-item">
-                    <span>Project</span>
-                    <span class="booking-tag">3 tasks</span>
-                  </div>
-                  <div class="booking-item">
-                    <span>Design</span>
-                    <span class="booking-tag">11:30</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="apps">
-              <div class="app">
-                <div class="app-icon blue"></div>
-                <div class="app-name">Messages</div>
-              </div>
-              <div class="app">
-                <div class="app-icon purple"></div>
-                <div class="app-name">Photos</div>
-              </div>
-              <div class="app">
-                <div class="app-icon pink"></div>
-                <div class="app-name">Camera</div>
-              </div>
-              <div class="app">
-                <div class="app-icon green"></div>
-                <div class="app-name">Maps</div>
-              </div>
-
-              <div class="app">
-                <div class="app-icon orange"></div>
-                <div class="app-name">Music</div>
-              </div>
-              <div class="app">
-                <div class="app-icon gray"></div>
-                <div class="app-name">Notes</div>
-              </div>
-              <div class="app">
-                <div class="app-icon teal"></div>
-                <div class="app-name">Mail</div>
-              </div>
-              <div class="app">
-                <div class="app-icon red"></div>
-                <div class="app-name">App Store</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="dock">
-            <div class="app-icon blue"></div>
-            <div class="app-icon purple"></div>
-            <div class="app-icon green"></div>
-            <div class="app-icon orange"></div>
-            <div class="app-icon gray"></div>
-          </div>
-          <div class="home-indicator"></div>
         </div>
 
         <div class="lock-screen" id="lockScreen">
           <div class="lock-top">
-            <div class="lock-time">9:41</div>
+            <div class="lock-time" id="time">9:41</div>
             <div class="lock-date">금요일, 12월 30일</div>
-            <div class="lock-text">Swipe up</div>
           </div>
 
           <div class="swipe-zone" id="swipeZone">
@@ -731,31 +404,27 @@
 
           <div class="unlock-success" id="unlockSuccess">Unlocked</div>
         </div>
+
+        <div class="home-indicator"></div>
       </div>
     </div>
 
     <script>
       const timeEl = document.getElementById('time');
-      const lockTimeEls = document.querySelectorAll('.lock-time');
       const updateClock = () => {
         const now = new Date();
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
-        const value = `${hours}:${minutes}`;
-
-        timeEl.textContent = value;
-        lockTimeEls.forEach((el) => {
-          el.textContent = value;
-        });
+        timeEl.textContent = `${hours}:${minutes}`;
       };
       updateClock();
       setInterval(updateClock, 30000);
 
       const lockScreen = document.getElementById('lockScreen');
       const passcodePanel = document.getElementById('passcodePanel');
-      const swipeZone = document.getElementById('swipeZone');
       const passcodeDots = document.getElementById('passcodeDots');
       const unlockSuccess = document.getElementById('unlockSuccess');
+      const swipeZone = document.getElementById('swipeZone');
       const keypadButtons = Array.from(document.querySelectorAll('.key'));
       let enteredCode = '';
       let touchStartY = 0;
