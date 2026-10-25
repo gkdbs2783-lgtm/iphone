@@ -103,10 +103,10 @@
 
       .status-dot {
         position: absolute;
-        top: 16px;
-        left: calc(50% + 65px);
-        width: 6px;
-        height: 6px;
+        top: 17px;
+        left: calc(50% + 10px);
+        width: 5px;
+        height: 5px;
         border-radius: 50%;
         background: #37d67a;
         box-shadow: 0 0 0 1px rgba(0,0,0,0.18);
@@ -114,27 +114,29 @@
       }
 
       .status-right {
+        position: absolute;
+        top: 12px;
+        left: calc(50% + 18px);
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        gap: 6px;
-        margin-left: auto;
+        gap: 0;
         font-size: 10px;
         font-weight: 600;
         color: rgba(255,255,255,0.9);
+        z-index: 66;
       }
 
       .telemetry {
         display: flex;
         align-items: center;
-        gap: 6px;
       }
 
       .signal {
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.95);
+        width: 0;
+        height: 0;
+        opacity: 0;
+        pointer-events: none;
       }
 
       .battery {
@@ -143,6 +145,7 @@
         border-radius: 3px;
         border: 1.5px solid rgba(255,255,255,0.9);
         position: relative;
+        background: transparent;
       }
 
       .battery::before {
