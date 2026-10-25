@@ -76,31 +76,65 @@
       }
 
       .status-bar {
+        position: absolute;
+        top: 14px;
+        left: 0;
+        right: 0;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        font-size: 12px;
-        font-weight: 600;
-        color: rgba(255,255,255,0.9);
-        padding: 0 8px 6px;
+        justify-content: space-between;
+        padding: 0 14px 0 18px;
+        z-index: 60;
+        pointer-events: none;
       }
 
-      .status-icons {
+      .status-left {
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.92);
+        min-width: 42px;
+      }
+
+      .dynamic-island {
+        position: absolute;
+        left: 50%;
+        top: 8px;
+        transform: translateX(-50%);
+        width: 122px;
+        height: 28px;
+        border-radius: 999px;
+        background: rgba(0,0,0,0.9);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+        z-index: 65;
+      }
+
+      .status-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 6px;
+        margin-left: auto;
+        font-size: 10px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.9);
+      }
+
+      .telemetry {
         display: flex;
         align-items: center;
         gap: 6px;
       }
 
       .signal {
-        width: 10px;
-        height: 10px;
+        width: 9px;
+        height: 9px;
         border-radius: 50%;
         background: rgba(255,255,255,0.95);
       }
 
       .wifi {
-        width: 14px;
-        height: 10px;
+        width: 12px;
+        height: 9px;
         position: relative;
       }
 
@@ -115,13 +149,13 @@
         border-radius: 50%;
       }
 
-      .wifi::before { transform: scale(0.65); }
-      .wifi::after { transform: scale(0.35); }
-      .wifi span { transform: scale(0.15); }
+      .wifi::before { transform: scale(0.7); }
+      .wifi::after { transform: scale(0.4); }
+      .wifi span { transform: scale(0.16); }
 
       .battery {
-        width: 20px;
-        height: 10px;
+        width: 18px;
+        height: 9px;
         border-radius: 3px;
         border: 1.5px solid rgba(255,255,255,0.9);
         position: relative;
@@ -131,7 +165,7 @@
         content: "";
         position: absolute;
         right: -4px;
-        top: 2px;
+        top: 1px;
         width: 2px;
         height: 5px;
         background: rgba(255,255,255,0.9);
@@ -144,6 +178,12 @@
         inset: 2px;
         background: rgba(255,255,255,0.92);
         border-radius: 2px;
+      }
+
+      .battery-level {
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        color: rgba(255,255,255,0.92);
       }
 
       .notch {
@@ -453,16 +493,32 @@
 
         <div class="screen">
           <div class="status-bar">
-            <span>9:41</span>
-            <div class="status-icons">
-              <span class="signal"></span>
-              <span class="wifi"><span></span></span>
-              <span class="battery"></span>
+            <div class="status-left">9:41</div>
+            <div class="dynamic-island" aria-hidden="true"></div>
+            <div class="status-right">
+              <div class="telemetry">
+                <span class="signal"></span>
+                <span class="wifi"><span></span></span>
+                <span class="battery"></span>
+                <span class="battery-level">100%</span>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="home-screen" id="homeScreen">
+          <div class="status-bar">
+            <div class="status-left">9:41</div>
+            <div class="dynamic-island" aria-hidden="true"></div>
+            <div class="status-right">
+              <div class="telemetry">
+                <span class="signal"></span>
+                <span class="wifi"><span></span></span>
+                <span class="battery"></span>
+                <span class="battery-level">100%</span>
+              </div>
+            </div>
+          </div>
           <div class="home-app-grid">
             <div class="app-icon"></div>
             <div class="app-icon"></div>
@@ -477,6 +533,19 @@
         </div>
 
         <div class="lock-screen" id="lockScreen">
+          <div class="status-bar">
+            <div class="status-left">9:41</div>
+            <div class="dynamic-island" aria-hidden="true"></div>
+            <div class="status-right">
+              <div class="telemetry">
+                <span class="signal"></span>
+                <span class="wifi"><span></span></span>
+                <span class="battery"></span>
+                <span class="battery-level">100%</span>
+              </div>
+            </div>
+          </div>
+
           <div class="lock-top">
             <div class="lock-time" id="time">9:41</div>
             <div class="lock-date">금요일, 12월 30일</div>
@@ -518,7 +587,11 @@
         const now = new Date();
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
-        timeEl.textContent = `${hours}:${minutes}`;
+        const formatted = `${hours}:${minutes}`;
+        timeEl.textContent = formatted;
+        document.querySelectorAll('.status-left').forEach((el) => {
+          el.textContent = formatted;
+        });
       };
       updateClock();
       setInterval(updateClock, 30000);
