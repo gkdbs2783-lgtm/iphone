@@ -82,17 +82,14 @@
         right: 0;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-end;
         padding: 0 14px 0 18px;
         z-index: 60;
         pointer-events: none;
       }
 
       .status-left {
-        font-size: 12px;
-        font-weight: 600;
-        color: rgba(255,255,255,0.92);
-        min-width: 42px;
+        display: none;
       }
 
       .dynamic-island {
@@ -136,11 +133,11 @@
         width: 12px;
         height: 9px;
         position: relative;
+        display: inline-block;
       }
 
       .wifi::before,
-      .wifi::after,
-      .wifi span {
+      .wifi::after {
         content: "";
         position: absolute;
         inset: 0;
@@ -149,9 +146,8 @@
         border-radius: 50%;
       }
 
-      .wifi::before { transform: scale(0.7); }
-      .wifi::after { transform: scale(0.4); }
-      .wifi span { transform: scale(0.16); }
+      .wifi::before { transform: scale(0.9); }
+      .wifi::after { transform: scale(0.55); }
 
       .battery {
         width: 18px;
@@ -178,12 +174,6 @@
         inset: 2px;
         background: rgba(255,255,255,0.92);
         border-radius: 2px;
-      }
-
-      .battery-level {
-        font-size: 10px;
-        letter-spacing: 0.04em;
-        color: rgba(255,255,255,0.92);
       }
 
       .notch {
@@ -493,14 +483,12 @@
 
         <div class="screen">
           <div class="status-bar">
-            <div class="status-left">9:41</div>
             <div class="dynamic-island" aria-hidden="true"></div>
             <div class="status-right">
               <div class="telemetry">
                 <span class="signal"></span>
-                <span class="wifi"><span></span></span>
-                <span class="battery"></span>
-                <span class="battery-level">100%</span>
+                <span class="wifi" aria-hidden="true"></span>
+                <span class="battery" aria-label="배터리"></span>
               </div>
             </div>
           </div>
@@ -508,14 +496,12 @@
 
         <div class="home-screen" id="homeScreen">
           <div class="status-bar">
-            <div class="status-left">9:41</div>
             <div class="dynamic-island" aria-hidden="true"></div>
             <div class="status-right">
               <div class="telemetry">
                 <span class="signal"></span>
-                <span class="wifi"><span></span></span>
-                <span class="battery"></span>
-                <span class="battery-level">100%</span>
+                <span class="wifi" aria-hidden="true"></span>
+                <span class="battery" aria-label="배터리"></span>
               </div>
             </div>
           </div>
@@ -534,14 +520,12 @@
 
         <div class="lock-screen" id="lockScreen">
           <div class="status-bar">
-            <div class="status-left">9:41</div>
             <div class="dynamic-island" aria-hidden="true"></div>
             <div class="status-right">
               <div class="telemetry">
                 <span class="signal"></span>
-                <span class="wifi"><span></span></span>
-                <span class="battery"></span>
-                <span class="battery-level">100%</span>
+                <span class="wifi" aria-hidden="true"></span>
+                <span class="battery" aria-label="배터리"></span>
               </div>
             </div>
           </div>
@@ -589,9 +573,6 @@
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const formatted = `${hours}:${minutes}`;
         timeEl.textContent = formatted;
-        document.querySelectorAll('.status-left').forEach((el) => {
-          el.textContent = formatted;
-        });
       };
       updateClock();
       setInterval(updateClock, 30000);
