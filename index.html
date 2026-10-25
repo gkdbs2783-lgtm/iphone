@@ -228,15 +228,15 @@
 
       .passcode-panel {
         position: absolute;
-        left: 18px;
-        right: 18px;
-        bottom: 10px;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 26px;
-        backdrop-filter: blur(12px);
-        padding: 16px 12px 12px;
-        transform: translateY(18px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 220px;
+        bottom: 22px;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        backdrop-filter: none;
+        padding: 0;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
@@ -244,15 +244,24 @@
 
       .passcode-panel.visible {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(-50%) translateY(0);
         visibility: visible;
+      }
+
+      .passcode-label {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: rgba(255,255,255,0.68);
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 10px;
       }
 
       .passcode-dot-row {
         display: flex;
         justify-content: center;
         gap: 10px;
-        margin: 14px 0 18px;
+        margin: 0 0 18px;
       }
 
       .pin-dot {
@@ -381,6 +390,7 @@
           </div>
 
           <div class="passcode-panel" id="passcodePanel">
+            <div class="passcode-label">암호 입력</div>
             <div class="passcode-dot-row" id="passcodeDots"></div>
             <div class="keypad">
               <button class="key" type="button">1</button>
