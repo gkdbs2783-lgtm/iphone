@@ -371,16 +371,16 @@
 
       .home-content {
         position: absolute;
-        inset: 92px 18px 114px;
+        inset: 96px 16px 116px;
         z-index: 1;
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
+        gap: 12px;
       }
 
       .widget {
         position: relative;
-        border-radius: 24px;
+        border-radius: 22px;
         background: rgba(255,255,255,0.12);
         border: 1px solid rgba(255,255,255,0.12);
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 10px 30px rgba(0,0,0,0.18);
@@ -388,24 +388,25 @@
         overflow: hidden;
         width: 100%;
         aspect-ratio: 1 / 1;
+        padding: 12px 10px 10px;
       }
 
       .widget-calendar {
-        padding: 16px 14px 12px;
         display: flex;
         flex-direction: column;
       }
 
       .widget-weather {
-        padding: 16px 14px 12px;
         background: linear-gradient(145deg, rgba(79,140,255,0.38), rgba(17,24,39,0.6));
+        display: flex;
+        flex-direction: column;
       }
 
       .widget-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
         font-size: 10px;
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -419,20 +420,22 @@
       }
 
       .calendar-today {
-        display: flex;
-        align-items: flex-end;
+        display: grid;
+        grid-template-columns: auto auto auto;
+        align-items: end;
         justify-content: center;
-        gap: 8px;
+        gap: 6px 8px;
         margin-top: 8px;
         margin-bottom: 14px;
         color: rgba(255,255,255,0.9);
       }
 
       .today-weekday {
-        font-size: 11px;
+        font-size: 10px;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         opacity: 0.8;
+        margin-bottom: 4px;
       }
 
       .today-date {
@@ -445,6 +448,7 @@
       .today-month {
         font-size: 12px;
         opacity: 0.8;
+        margin-bottom: 6px;
       }
 
       .todo-list {
@@ -452,6 +456,7 @@
         flex-direction: column;
         gap: 8px;
         margin-top: auto;
+        padding: 0 2px;
       }
 
       .todo-item {
