@@ -344,7 +344,7 @@
         position: absolute;
         inset: 0;
         z-index: 10;
-        background: #000;
+        background: linear-gradient(180deg, #0f172a 0%, #0b1018 100%);
         opacity: 0;
         visibility: hidden;
         transform: translateY(56px) scale(0.98);
@@ -356,8 +356,10 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05), transparent 28%),
-                    radial-gradient(circle at 80% 25%, rgba(255,255,255,0.04), transparent 24%);
+        background:
+          radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 28%),
+          radial-gradient(circle at 80% 25%, rgba(148,163,184,0.08), transparent 24%),
+          linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
       }
 
       .home-screen.visible {
@@ -367,14 +369,148 @@
         filter: blur(0);
       }
 
+      .home-content {
+        position: absolute;
+        inset: 84px 18px 82px;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .widget {
+        position: relative;
+        border-radius: 24px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 10px 30px rgba(0,0,0,0.18);
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+      }
+
+      .widget-calendar {
+        min-height: 156px;
+        padding: 16px 16px 12px;
+      }
+
+      .widget-weather {
+        min-height: 168px;
+        padding: 16px 16px 14px;
+        background: linear-gradient(145deg, rgba(79,140,255,0.38), rgba(17,24,39,0.6));
+      }
+
+      .widget-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.76);
+      }
+
+      .widget-pill {
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.12);
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .day-pill {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-height: 62px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.04);
+        color: rgba(255,255,255,0.7);
+        font-size: 10px;
+      }
+
+      .day-pill strong {
+        font-size: 17px;
+        font-weight: 700;
+        color: white;
+      }
+
+      .day-pill.active {
+        background: rgba(255,255,255,0.9);
+        color: #0c0d11;
+      }
+
+      .day-pill.active strong {
+        color: #0c0d11;
+      }
+
+      .weather-main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .weather-temp {
+        font-size: 40px;
+        font-weight: 300;
+        letter-spacing: -0.06em;
+        line-height: 1;
+      }
+
+      .weather-icon {
+        font-size: 26px;
+        filter: drop-shadow(0 0 18px rgba(255,255,255,0.22));
+      }
+
+      .weather-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: rgba(255,255,255,0.78);
+        margin-bottom: 10px;
+      }
+
+      .forecast-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .forecast-slot {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 4px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.08);
+        font-size: 10px;
+        color: rgba(255,255,255,0.8);
+      }
+
+      .forecast-slot strong {
+        font-size: 12px;
+        color: white;
+      }
+
       .home-app-grid {
         position: absolute;
-        inset: 94px 20px 78px;
+        left: 0;
+        right: 0;
+        bottom: 0;
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         grid-auto-rows: 68px;
         gap: 18px 14px;
         z-index: 1;
+        padding: 0 18px 0;
       }
 
       .app-icon {
@@ -463,6 +599,47 @@
         <div class="screen"></div>
 
         <div class="home-screen" id="homeScreen">
+          <div class="home-content">
+            <div class="widget widget-calendar">
+              <div class="widget-header">
+                <span>Calendar</span>
+                <span class="widget-pill">+2</span>
+              </div>
+
+              <div class="calendar-grid">
+                <div class="day-pill"><span>월</span><strong>12</strong></div>
+                <div class="day-pill"><span>화</span><strong>13</strong></div>
+                <div class="day-pill active"><span>수</span><strong>14</strong></div>
+                <div class="day-pill"><span>목</span><strong>15</strong></div>
+                <div class="day-pill"><span>금</span><strong>16</strong></div>
+              </div>
+            </div>
+
+            <div class="widget widget-weather">
+              <div class="widget-header">
+                <span>Weather</span>
+                <span class="widget-pill">Seoul</span>
+              </div>
+
+              <div class="weather-main">
+                <div class="weather-temp">23°</div>
+                <div class="weather-icon">☀️</div>
+              </div>
+
+              <div class="weather-meta">
+                <span>맑음</span>
+                <span>12km/h</span>
+              </div>
+
+              <div class="forecast-row">
+                <div class="forecast-slot"><span>오후</span><strong>27°</strong></div>
+                <div class="forecast-slot"><span>저녁</span><strong>22°</strong></div>
+                <div class="forecast-slot"><span>내일</span><strong>24°</strong></div>
+                <div class="forecast-slot"><span>월</span><strong>21°</strong></div>
+              </div>
+            </div>
+          </div>
+
           <div class="home-app-grid">
             <div class="app-icon"></div>
             <div class="app-icon"></div>
