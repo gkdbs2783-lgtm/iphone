@@ -23,22 +23,43 @@
 
       * { box-sizing: border-box; }
 
-      body {
+      html, body {
         margin: 0;
+        width: 100%;
         min-height: 100vh;
+        background: #000;
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
         display: grid;
         place-items: center;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background:
-          radial-gradient(circle at 20% 20%, rgba(96,165,250,0.4), transparent 30%),
-          radial-gradient(circle at 80% 10%, rgba(168,85,247,0.4), transparent 30%),
-          linear-gradient(135deg, var(--bg1), var(--bg2));
-        color: var(--text);
+        overflow: hidden;
+      }
+
+      .launch-link-wrap {
+        position: absolute;
+        top: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 5;
+      }
+
+      .launch-link {
+        color: rgba(255,255,255,0.9);
+        text-decoration: none;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.18);
+        border-radius: 999px;
+        padding: 8px 14px;
       }
 
       .phone-shell {
-        width: min(92vw, 390px);
-        height: min(94vh, 820px);
+        width: min(82vw, 340px);
+        height: min(94vh, 760px);
         padding: 14px 14px 18px;
         border-radius: 44px;
         background: linear-gradient(145deg, #111827, #050816 40%, #181d2a 100%);
@@ -196,18 +217,6 @@
         inset: 8px 58px 8px 58px;
         border-radius: 8px;
         background: rgba(29,31,35,0.92);
-      }
-
-      .light {
-        pointer-events: none;
-        position: absolute;
-        top: 70px;
-        left: 20px;
-        width: 100px;
-        height: 150px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.18), transparent);
-        filter: blur(30px);
-        transform: rotate(-12deg);
       }
 
       .topbar {
@@ -457,6 +466,185 @@
         z-index: 30;
       }
 
+      .lock-screen {
+        position: absolute;
+        inset: 0;
+        z-index: 40;
+        background: linear-gradient(180deg, rgba(2,9,22,0.82), rgba(10,22,40,0.9));
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 62px 26px 38px;
+        transition: opacity 0.35s ease, visibility 0.35s ease;
+      }
+
+      .lock-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .lock-top {
+        text-align: center;
+      }
+
+      .lock-time {
+        font-size: 72px;
+        font-weight: 300;
+        line-height: 0.95;
+        letter-spacing: -0.08em;
+        margin: 8px 0 8px;
+      }
+
+      .lock-date {
+        font-size: 16px;
+        color: rgba(255,255,255,0.78);
+      }
+
+      .lock-text {
+        color: rgba(255,255,255,0.85);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-top: 18px;
+      }
+
+      .swipe-zone {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 120px;
+        user-select: none;
+      }
+
+      .swipe-indicator {
+        width: 108px;
+        height: 6px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.4);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .swipe-indicator::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 42%;
+        height: 100%;
+        background: rgba(255,255,255,0.95);
+        border-radius: inherit;
+      }
+
+      .passcode-panel {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 28px;
+        background: rgba(15, 23, 42, 0.58);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 28px;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+        padding: 18px 16px 12px;
+        backdrop-filter: blur(20px);
+        transform: translateY(18px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+      }
+
+      .passcode-panel.visible {
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+      }
+
+      .passcode-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 10px;
+      }
+
+      .passcode-title {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .passcode-dot-row {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 14px 0 18px;
+      }
+
+      .pin-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.18);
+        border: 1px solid rgba(255,255,255,0.24);
+        transition: background 0.15s ease, transform 0.15s ease;
+      }
+
+      .pin-dot.filled {
+        background: rgba(255,255,255,0.95);
+        transform: scale(1.08);
+      }
+
+      .keypad {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .key {
+        appearance: none;
+        border: 0;
+        border-radius: 18px;
+        height: 52px;
+        background: rgba(255,255,255,0.08);
+        color: white;
+        font-size: 22px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .key:active {
+        transform: scale(0.98);
+      }
+
+      .key.action {
+        font-size: 16px;
+        background: rgba(255,255,255,0.12);
+      }
+
+      .unlock-success {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 20px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.35s ease, visibility 0.35s ease;
+        background: rgba(15, 23, 42, 0.3);
+      }
+
+      .unlock-success.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
       @media (max-width: 420px) {
         .phone-shell {
           width: 100vw;
@@ -473,6 +661,10 @@
     </style>
   </head>
   <body>
+    <div class="launch-link-wrap">
+      <a class="launch-link" href="#" id="launch-phone">휴대폰 열기</a>
+    </div>
+
     <div class="phone-shell">
       <div class="phone">
         <div class="wallpaper"></div>
@@ -580,19 +772,191 @@
           </div>
           <div class="home-indicator"></div>
         </div>
+
+        <div class="lock-screen" id="lockScreen">
+          <div class="lock-top">
+            <div class="lock-time">9:41</div>
+            <div class="lock-date">금요일, 12월 30일</div>
+            <div class="lock-text">Swipe up to unlock</div>
+          </div>
+
+          <div class="swipe-zone" id="swipeZone">
+            <div class="swipe-indicator"></div>
+          </div>
+
+          <div class="passcode-panel" id="passcodePanel">
+            <div class="passcode-header">
+              <span class="passcode-title">Password</span>
+              <button class="key action" type="button" id="cancelPasscode">취소</button>
+            </div>
+            <div class="passcode-dot-row" id="passcodeDots"></div>
+            <div class="keypad">
+              <button class="key" type="button">1</button>
+              <button class="key" type="button">2</button>
+              <button class="key" type="button">3</button>
+              <button class="key" type="button">4</button>
+              <button class="key" type="button">5</button>
+              <button class="key" type="button">6</button>
+              <button class="key" type="button">7</button>
+              <button class="key" type="button">8</button>
+              <button class="key" type="button">9</button>
+              <button class="key action" type="button" id="clearPasscode">지우기</button>
+              <button class="key" type="button">0</button>
+              <button class="key action" type="button" id="submitPasscode">확인</button>
+            </div>
+          </div>
+
+          <div class="unlock-success" id="unlockSuccess">Unlocked</div>
+        </div>
       </div>
     </div>
 
     <script>
       const timeEl = document.getElementById('time');
+      const lockTimeEls = document.querySelectorAll('.lock-time');
       const updateClock = () => {
         const now = new Date();
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
-        timeEl.textContent = `${hours}:${minutes}`;
+        const timeStr = `${hours}:${minutes}`;
+        timeEl.textContent = timeStr;
+        lockTimeEls.forEach((el) => {
+          el.textContent = timeStr;
+        });
       };
       updateClock();
       setInterval(updateClock, 30000);
+
+      const lockScreen = document.getElementById('lockScreen');
+      const passcodePanel = document.getElementById('passcodePanel');
+      const swipeZone = document.getElementById('swipeZone');
+      const passcodeDots = document.getElementById('passcodeDots');
+      const unlockSuccess = document.getElementById('unlockSuccess');
+      const launchPhone = document.getElementById('launch-phone');
+      const inputs = Array.from(document.querySelectorAll('.key'));
+      let enteredCode = '';
+      let touchStartY = 0;
+      let swipeActive = false;
+
+      const renderDots = () => {
+        passcodeDots.innerHTML = '';
+        for (let i = 0; i < 4; i += 1) {
+          const dot = document.createElement('span');
+          dot.className = 'pin-dot' + (i < enteredCode.length ? ' filled' : '');
+          passcodeDots.appendChild(dot);
+        }
+      };
+
+      const showPasscode = () => {
+        passcodePanel.classList.add('visible');
+      };
+
+      const hidePasscode = () => {
+        passcodePanel.classList.remove('visible');
+      };
+
+      const unlockPhone = () => {
+        unlockSuccess.classList.add('visible');
+        setTimeout(() => {
+          lockScreen.classList.add('hidden');
+          unlockSuccess.classList.remove('visible');
+        }, 700);
+      };
+
+      const resetPasscode = () => {
+        enteredCode = '';
+        renderDots();
+      };
+
+      const handleNumberInput = (value) => {
+        if (enteredCode.length >= 4) return;
+        enteredCode += value;
+        renderDots();
+
+        if (enteredCode.length === 4) {
+          setTimeout(() => {
+            unlockPhone();
+            resetPasscode();
+            hidePasscode();
+          }, 250);
+        }
+      };
+
+      inputs.forEach((button) => {
+        const value = button.textContent.trim();
+        if (button.id === 'clearPasscode') {
+          button.addEventListener('click', () => {
+            enteredCode = enteredCode.slice(0, -1);
+            renderDots();
+          });
+          return;
+        }
+
+        if (button.id === 'submitPasscode') {
+          button.addEventListener('click', () => {
+            if (enteredCode.length === 4) {
+              unlockPhone();
+              resetPasscode();
+              hidePasscode();
+            }
+          });
+          return;
+        }
+
+        if (/^[0-9]$/.test(value)) {
+          button.addEventListener('click', () => handleNumberInput(value));
+        }
+      });
+
+      document.getElementById('cancelPasscode').addEventListener('click', () => {
+        hidePasscode();
+        resetPasscode();
+      });
+
+      launchPhone.addEventListener('click', (event) => {
+        event.preventDefault();
+        lockScreen.classList.remove('hidden');
+        hidePasscode();
+        resetPasscode();
+      });
+
+      swipeZone.addEventListener('touchstart', (event) => {
+        touchStartY = event.touches[0].clientY;
+        swipeActive = true;
+      }, { passive: true });
+
+      swipeZone.addEventListener('touchmove', (event) => {
+        if (!swipeActive) return;
+        const deltaY = touchStartY - event.touches[0].clientY;
+        if (deltaY > 40) {
+          showPasscode();
+          swipeActive = false;
+        }
+      }, { passive: true });
+
+      swipeZone.addEventListener('mousedown', (event) => {
+        touchStartY = event.clientY;
+        swipeActive = true;
+      });
+
+      swipeZone.addEventListener('mousemove', (event) => {
+        if (!swipeActive) return;
+        const deltaY = touchStartY - event.clientY;
+        if (deltaY > 40) {
+          showPasscode();
+          swipeActive = false;
+        }
+      });
+
+      swipeZone.addEventListener('mouseup', () => {
+        swipeActive = false;
+      });
+
+      swipeZone.addEventListener('mouseleave', () => {
+        swipeActive = false;
+      });
+
+      renderDots();
     </script>
   </body>
 </html>
