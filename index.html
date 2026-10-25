@@ -101,6 +101,18 @@
         z-index: 65;
       }
 
+      .status-dot {
+        position: absolute;
+        top: 16px;
+        left: calc(50% + 65px);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #37d67a;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.18);
+        z-index: 66;
+      }
+
       .status-right {
         display: flex;
         align-items: center;
@@ -124,26 +136,6 @@
         border-radius: 50%;
         background: rgba(255,255,255,0.95);
       }
-
-      .wifi {
-        width: 12px;
-        height: 9px;
-        position: relative;
-        display: inline-block;
-      }
-
-      .wifi::before,
-      .wifi::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border: 2px solid rgba(255,255,255,0.9);
-        border-color: rgba(255,255,255,0.9) transparent transparent transparent;
-        border-radius: 50%;
-      }
-
-      .wifi::before { transform: scale(0.9); }
-      .wifi::after { transform: scale(0.55); }
 
       .battery {
         width: 18px;
@@ -482,10 +474,10 @@
 
         <div class="status-bar" aria-hidden="true">
           <div class="dynamic-island"></div>
+          <div class="status-dot"></div>
           <div class="status-right">
             <div class="telemetry">
               <span class="signal"></span>
-              <span class="wifi"></span>
               <span class="battery" aria-label="배터리"></span>
             </div>
           </div>
