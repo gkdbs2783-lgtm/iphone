@@ -173,13 +173,6 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        transition: opacity 0.28s ease, visibility 0.28s ease;
-      }
-
-      .lock-screen.hidden {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
       }
 
       .lock-top {
@@ -200,131 +193,25 @@
         font-size: 14px;
       }
 
-      .swipe-zone {
+      .lock-hint {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 90px;
-        user-select: none;
+        color: rgba(255,255,255,0.65);
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
       }
 
-      .swipe-indicator {
+      .lock-hint::before {
+        content: "";
         width: 120px;
         height: 6px;
         border-radius: 999px;
-        background: rgba(255,255,255,1);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .swipe-indicator::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        background: rgba(255,255,255,1);
-      }
-
-      .passcode-panel {
-        position: absolute;
-        left: 14px;
-        right: 14px;
-        bottom: 18px;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 26px;
-        backdrop-filter: blur(12px);
-        padding: 16px 14px 12px;
-        transform: translateY(18px);
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
-      }
-
-      .passcode-panel.visible {
-        opacity: 1;
-        transform: translateY(0);
-        visibility: visible;
-      }
-
-      .passcode-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-        color: rgba(255,255,255,0.76);
-        font-size: 11px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .passcode-dot-row {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin: 14px 0 18px;
-      }
-
-      .pin-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.18);
-        border: 1px solid rgba(255,255,255,0.12);
-        transition: background 0.15s ease, transform 0.15s ease;
-      }
-
-      .pin-dot.filled {
-        background: rgba(255,255,255,0.96);
-        transform: scale(1.08);
-      }
-
-      .keypad {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-      }
-
-      .key {
-        appearance: none;
-        border: 0;
-        border-radius: 16px;
-        height: 48px;
-        background: rgba(255,255,255,0.06);
-        color: #fff;
-        font-size: 20px;
-        font-weight: 500;
-        cursor: pointer;
-      }
-
-      .key:active {
-        transform: scale(0.98);
-      }
-
-      .key.action {
-        background: rgba(255,255,255,0.12);
-        font-size: 13px;
-      }
-
-      .unlock-success {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 18px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.35s ease, visibility 0.35s ease;
-        background: rgba(255,255,255,0.03);
-      }
-
-      .unlock-success.visible {
-        opacity: 1;
-        visibility: visible;
+        background: rgba(255,255,255,0.9);
+        display: block;
+        margin-right: 12px;
       }
 
       .home-indicator {
@@ -361,7 +248,7 @@
 
         <div class="screen">
           <div class="status-bar">
-            <span>9:41</span>
+            <span id="statusTime">9:41</span>
             <div class="status-icons">
               <span class="signal"></span>
               <span class="wifi"><span></span></span>
@@ -370,39 +257,13 @@
           </div>
         </div>
 
-        <div class="lock-screen" id="lockScreen">
+        <div class="lock-screen">
           <div class="lock-top">
             <div class="lock-time" id="time">9:41</div>
             <div class="lock-date">금요일, 12월 30일</div>
           </div>
 
-          <div class="swipe-zone" id="swipeZone">
-            <div class="swipe-indicator"></div>
-          </div>
-
-          <div class="passcode-panel" id="passcodePanel">
-            <div class="passcode-header">
-              <span>Password</span>
-              <button class="key action" type="button" id="cancelPasscode">취소</button>
-            </div>
-            <div class="passcode-dot-row" id="passcodeDots"></div>
-            <div class="keypad">
-              <button class="key" type="button">1</button>
-              <button class="key" type="button">2</button>
-              <button class="key" type="button">3</button>
-              <button class="key" type="button">4</button>
-              <button class="key" type="button">5</button>
-              <button class="key" type="button">6</button>
-              <button class="key" type="button">7</button>
-              <button class="key" type="button">8</button>
-              <button class="key" type="button">9</button>
-              <button class="key action" type="button" id="clearPasscode">지우기</button>
-              <button class="key" type="button">0</button>
-              <button class="key action" type="button" id="submitPasscode">확인</button>
-            </div>
-          </div>
-
-          <div class="unlock-success" id="unlockSuccess">Unlocked</div>
+          <div class="lock-hint">Slide to unlock</div>
         </div>
 
         <div class="home-indicator"></div>
@@ -411,138 +272,17 @@
 
     <script>
       const timeEl = document.getElementById('time');
+      const statusTimeEl = document.getElementById('statusTime');
       const updateClock = () => {
         const now = new Date();
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
-        timeEl.textContent = `${hours}:${minutes}`;
+        const value = `${hours}:${minutes}`;
+        timeEl.textContent = value;
+        statusTimeEl.textContent = value;
       };
       updateClock();
       setInterval(updateClock, 30000);
-
-      const lockScreen = document.getElementById('lockScreen');
-      const passcodePanel = document.getElementById('passcodePanel');
-      const passcodeDots = document.getElementById('passcodeDots');
-      const unlockSuccess = document.getElementById('unlockSuccess');
-      const swipeZone = document.getElementById('swipeZone');
-      const keypadButtons = Array.from(document.querySelectorAll('.key'));
-      let enteredCode = '';
-      let touchStartY = 0;
-      let swipeActive = false;
-
-      const renderDots = () => {
-        passcodeDots.innerHTML = '';
-        for (let i = 0; i < 4; i += 1) {
-          const dot = document.createElement('span');
-          dot.className = 'pin-dot' + (i < enteredCode.length ? ' filled' : '');
-          passcodeDots.appendChild(dot);
-        }
-      };
-
-      const showPasscode = () => {
-        passcodePanel.classList.add('visible');
-      };
-
-      const hidePasscode = () => {
-        passcodePanel.classList.remove('visible');
-      };
-
-      const unlockPhone = () => {
-        unlockSuccess.classList.add('visible');
-        setTimeout(() => {
-          lockScreen.classList.add('hidden');
-          unlockSuccess.classList.remove('visible');
-        }, 700);
-      };
-
-      const resetPasscode = () => {
-        enteredCode = '';
-        renderDots();
-      };
-
-      const handleNumberInput = (value) => {
-        if (enteredCode.length >= 4) return;
-        enteredCode += value;
-        renderDots();
-
-        if (enteredCode.length === 4) {
-          setTimeout(() => {
-            unlockPhone();
-            resetPasscode();
-            hidePasscode();
-          }, 180);
-        }
-      };
-
-      keypadButtons.forEach((button) => {
-        const value = button.textContent.trim();
-
-        if (button.id === 'clearPasscode') {
-          button.addEventListener('click', () => {
-            enteredCode = enteredCode.slice(0, -1);
-            renderDots();
-          });
-          return;
-        }
-
-        if (button.id === 'submitPasscode') {
-          button.addEventListener('click', () => {
-            if (enteredCode.length === 4) {
-              unlockPhone();
-              resetPasscode();
-              hidePasscode();
-            }
-          });
-          return;
-        }
-
-        if (/^[0-9]$/.test(value)) {
-          button.addEventListener('click', () => handleNumberInput(value));
-        }
-      });
-
-      document.getElementById('cancelPasscode').addEventListener('click', () => {
-        hidePasscode();
-        resetPasscode();
-      });
-
-      swipeZone.addEventListener('touchstart', (event) => {
-        touchStartY = event.touches[0].clientY;
-        swipeActive = true;
-      }, { passive: true });
-
-      swipeZone.addEventListener('touchmove', (event) => {
-        if (!swipeActive) return;
-        const deltaY = touchStartY - event.touches[0].clientY;
-        if (deltaY > 40) {
-          showPasscode();
-          swipeActive = false;
-        }
-      }, { passive: true });
-
-      swipeZone.addEventListener('mousedown', (event) => {
-        touchStartY = event.clientY;
-        swipeActive = true;
-      });
-
-      swipeZone.addEventListener('mousemove', (event) => {
-        if (!swipeActive) return;
-        const deltaY = touchStartY - event.clientY;
-        if (deltaY > 40) {
-          showPasscode();
-          swipeActive = false;
-        }
-      });
-
-      swipeZone.addEventListener('mouseup', () => {
-        swipeActive = false;
-      });
-
-      swipeZone.addEventListener('mouseleave', () => {
-        swipeActive = false;
-      });
-
-      renderDots();
     </script>
   </body>
 </html>
