@@ -88,10 +88,6 @@
         pointer-events: none;
       }
 
-      .status-left {
-        display: none;
-      }
-
       .dynamic-island {
         position: absolute;
         left: 50%;
@@ -484,30 +480,20 @@
       <div class="phone">
         <div class="notch"></div>
 
-        <div class="screen">
-          <div class="status-bar">
-            <div class="dynamic-island" aria-hidden="true"></div>
-            <div class="status-right">
-              <div class="telemetry">
-                <span class="signal"></span>
-                <span class="wifi" aria-hidden="true"></span>
-                <span class="battery" aria-label="배터리"></span>
-              </div>
+        <div class="status-bar" aria-hidden="true">
+          <div class="dynamic-island"></div>
+          <div class="status-right">
+            <div class="telemetry">
+              <span class="signal"></span>
+              <span class="wifi"></span>
+              <span class="battery" aria-label="배터리"></span>
             </div>
           </div>
         </div>
 
+        <div class="screen"></div>
+
         <div class="home-screen" id="homeScreen">
-          <div class="status-bar">
-            <div class="dynamic-island" aria-hidden="true"></div>
-            <div class="status-right">
-              <div class="telemetry">
-                <span class="signal"></span>
-                <span class="wifi" aria-hidden="true"></span>
-                <span class="battery" aria-label="배터리"></span>
-              </div>
-            </div>
-          </div>
           <div class="home-app-grid">
             <div class="app-icon"></div>
             <div class="app-icon"></div>
@@ -522,17 +508,6 @@
         </div>
 
         <div class="lock-screen" id="lockScreen">
-          <div class="status-bar">
-            <div class="dynamic-island" aria-hidden="true"></div>
-            <div class="status-right">
-              <div class="telemetry">
-                <span class="signal"></span>
-                <span class="wifi" aria-hidden="true"></span>
-                <span class="battery" aria-label="배터리"></span>
-              </div>
-            </div>
-          </div>
-
           <div class="lock-top">
             <div class="lock-time" id="time">9:41</div>
             <div class="lock-date">금요일, 12월 30일</div>
