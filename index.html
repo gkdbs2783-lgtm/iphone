@@ -184,6 +184,12 @@
         pointer-events: none;
       }
 
+      .lock-screen.passcode-visible .swipe-zone {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
       .lock-top {
         text-align: center;
         margin-top: 8px;
@@ -209,6 +215,7 @@
         align-items: center;
         height: 90px;
         user-select: none;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
       }
 
       .swipe-indicator {
@@ -233,7 +240,7 @@
         left: 50%;
         transform: translateX(-50%);
         width: 230px;
-        bottom: 22px;
+        bottom: 24px;
         background: transparent;
         border: none;
         border-radius: 0;
@@ -286,6 +293,7 @@
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 12px 14px;
         justify-items: center;
+        align-content: center;
       }
 
       .key {
@@ -450,10 +458,12 @@
 
       const showPasscode = () => {
         passcodePanel.classList.add('visible');
+        lockScreen.classList.add('passcode-visible');
       };
 
       const hidePasscode = () => {
         passcodePanel.classList.remove('visible');
+        lockScreen.classList.remove('passcode-visible');
       };
 
       const unlockPhone = () => {
