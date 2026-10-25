@@ -3,46 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>iPhone Home Screen Mockup</title>
+    <title>iPhone Lock Screen Mockup</title>
     <style>
       :root {
         --bg: #000000;
-        --widget-white: #f3f3f3;
-        --widget-weather: #4f5979;
-        --widget-weather-2: #2b3349;
-        --text: #161616;
-        --soft-text: rgba(0, 0, 0, 0.62);
-        --muted: rgba(255, 255, 255, 0.7);
-        --label: rgba(255, 255, 255, 0.92);
-        --dock: rgba(255, 255, 255, 0.08);
-        --dock-border: rgba(255, 255, 255, 0.12);
+        --phone-frame: #1a1a1a;
+        --phone-shadow: rgba(0, 0, 0, 0.18);
+        --screen-bg: #000000;
+        --glass: rgba(255, 255, 255, 0.08);
+        --text: #f5f5f5;
+        --muted: rgba(255,255,255,0.68);
+        --line: rgba(255,255,255,0.18);
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
-      html,
-      body {
+      html, body {
         margin: 0;
         width: 100%;
         min-height: 100vh;
         background: var(--bg);
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
         color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
       }
 
       body {
         display: grid;
         place-items: center;
+        overflow: hidden;
+      }
+
+      .phone-shell {
+        width: min(82vw, 340px);
+        height: min(92vh, 700px);
+        padding: 12px 12px 16px;
+        border-radius: 38px;
+        background: linear-gradient(145deg, #f4f4f4, #d8d8d8 45%, #f3f3f3 100%);
+        box-shadow: 0 24px 60px rgba(0,0,0,0.18), inset 0 0 0 2px rgba(0,0,0,0.08);
+        position: relative;
+      }
+
+      .phone-shell::before {
+        content: "";
+        position: absolute;
+        inset: 8px 8px auto 8px;
+        height: 22px;
+        border-radius: 16px;
+        background: rgba(0,0,0,0.18);
+        filter: blur(8px);
       }
 
       .phone {
         position: relative;
-        width: 390px;
-        height: 844px;
-        background: #000;
+        width: 100%;
+        height: 100%;
+        border-radius: 32px;
         overflow: hidden;
+        background: var(--screen-bg);
+        border: 1px solid rgba(255,255,255,0.2);
+      }
+
+      .screen {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 18px 18px 20px;
       }
 
       .status-bar {
@@ -50,8 +80,9 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 52px;
-        z-index: 10;
+        height: 42px;
+        z-index: 60;
+        pointer-events: none;
       }
 
       .dynamic-island {
@@ -62,730 +93,748 @@
         width: 122px;
         height: 28px;
         border-radius: 999px;
-        background: rgba(0, 0, 0, 0.9);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        background: rgba(0,0,0,0.9);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+        z-index: 65;
       }
 
-      .time {
+      .status-cluster {
         position: absolute;
-        left: 26px;
-        top: 12px;
-        font-size: 16px;
-        line-height: 1;
-        font-weight: 700;
-        letter-spacing: -0.04em;
-        color: #f4f4f4;
-      }
-
-      .status-icons {
-        position: absolute;
-        right: 24px;
-        top: 16px;
+        top: 15px;
+        left: calc(50% + 72px);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
+        z-index: 66;
       }
 
-      .signal {
-        width: 18px;
-        height: 11px;
-        position: relative;
-      }
-
-      .signal::before,
-      .signal::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        border-radius: 2px;
-        background: rgba(255,255,255,0.9);
-      }
-
-      .signal::before {
+      .status-dot {
         width: 5px;
-        height: 7px;
-        left: 2px;
-        transform: skewY(-20deg);
-      }
-
-      .signal::after {
-        width: 8px;
-        height: 9px;
-        left: 10px;
-      }
-
-      .wifi {
-        position: relative;
-        width: 20px;
-        height: 12px;
-      }
-
-      .wifi::before,
-      .wifi::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        border: 2px solid transparent;
-        border-top-color: rgba(255,255,255,0.9);
+        height: 5px;
         border-radius: 50%;
-      }
-
-      .wifi::before {
-        width: 12px;
-        height: 8px;
-        top: 0;
-      }
-
-      .wifi::after {
-        width: 18px;
-        height: 12px;
-        top: 1px;
+        background: #37d67a;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.18);
       }
 
       .battery {
-        position: relative;
-        width: 22px;
-        height: 11px;
+        width: 18px;
+        height: 9px;
         border-radius: 3px;
         border: 1.5px solid rgba(255,255,255,0.9);
+        position: relative;
+        background: transparent;
       }
 
       .battery::before {
         content: "";
         position: absolute;
         right: -4px;
-        top: 2px;
+        top: 1px;
         width: 2px;
         height: 5px;
-        border-radius: 1px;
         background: rgba(255,255,255,0.9);
+        border-radius: 2px;
       }
 
       .battery::after {
         content: "";
         position: absolute;
         inset: 2px;
+        background: rgba(255,255,255,0.92);
         border-radius: 2px;
-        background: rgba(255,255,255,0.9);
+      }
+
+      .notch {
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 132px;
+        height: 26px;
+        border-radius: 18px;
+        background: rgba(0,0,0,0.9);
+        z-index: 20;
+      }
+
+      .notch::before {
+        content: "";
+        position: absolute;
+        inset: 8px 52px 8px 52px;
+        border-radius: 8px;
+        background: rgba(20,20,20,0.9);
+      }
+
+      .lock-screen {
+        position: absolute;
+        inset: 0;
+        z-index: 40;
+        background: #000;
+        padding: 58px 26px 36px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: opacity 0.7s ease, visibility 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.7s ease;
+      }
+
+      .lock-screen::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 28%),
+                    radial-gradient(circle at 80% 25%, rgba(255,255,255,0.06), transparent 24%),
+                    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+      }
+
+      .lock-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-18%) scale(0.96);
+        filter: blur(12px);
+      }
+
+      .lock-screen.passcode-visible .swipe-zone {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .lock-top {
+        text-align: center;
+        margin-top: 8px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .lock-time {
+        font-size: 62px;
+        font-weight: 300;
+        letter-spacing: -0.08em;
+        line-height: 1;
+        color: #fff;
+      }
+
+      .lock-date {
+        margin-top: 10px;
+        color: rgba(255,255,255,0.72);
+        font-size: 14px;
+      }
+
+      .swipe-zone {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 90px;
+        user-select: none;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        position: relative;
+        z-index: 1;
+      }
+
+      .swipe-indicator {
+        width: 120px;
+        height: 6px;
+        border-radius: 999px;
+        background: rgba(255,255,255,1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .swipe-indicator::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        background: rgba(255,255,255,1);
+      }
+
+      .passcode-panel {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 250px;
+        bottom: 34px;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        backdrop-filter: none;
+        padding: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+        z-index: 1;
+      }
+
+      .passcode-panel.visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        visibility: visible;
+      }
+
+      .passcode-label {
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        font-weight: 500;
+        color: rgba(255,255,255,0.72);
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      .passcode-dot-row {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin: 0 0 20px;
+      }
+
+      .pin-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.18);
+        border: 1px solid rgba(255,255,255,0.12);
+        transition: background 0.15s ease, transform 0.15s ease;
+      }
+
+      .pin-dot.filled {
+        background: rgba(255,255,255,0.96);
+        transform: scale(1.09);
+      }
+
+      .keypad {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px 16px;
+        justify-items: center;
+        align-content: center;
+      }
+
+      .key {
+        appearance: none;
+        border: 0;
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.06);
+        color: #fff;
+        font-size: 20px;
+        font-weight: 500;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+
+      .key:active {
+        transform: scale(0.98);
+      }
+
+      .key.action {
+        background: rgba(255,255,255,0.12);
+        font-size: 12px;
+        letter-spacing: 0.03em;
+      }
+
+      .key.spacer {
+        visibility: hidden;
+        pointer-events: none;
       }
 
       .home-screen {
         position: absolute;
         inset: 0;
-        background: #000;
+        z-index: 10;
+        background: linear-gradient(180deg, #0f172a 0%, #0b1018 100%);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(56px) scale(0.98);
+        filter: blur(12px);
+        transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.65s ease, visibility 0.65s ease, filter 0.7s ease;
       }
 
-      .top-row {
+      .home-screen::before {
+        content: "";
         position: absolute;
-        top: 62px;
-        left: 18px;
-        right: 18px;
+        inset: 0;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 28%),
+          radial-gradient(circle at 80% 25%, rgba(148,163,184,0.08), transparent 24%),
+          linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+      }
+
+      .home-screen.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+
+      .home-content {
+        position: absolute;
+        inset: 92px 18px 114px;
+        z-index: 1;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
       }
 
       .widget {
         position: relative;
-        border-radius: 28px;
+        border-radius: 24px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 10px 30px rgba(0,0,0,0.18);
+        backdrop-filter: blur(10px);
         overflow: hidden;
-        padding: 14px 18px 14px 18px;
+        width: 100%;
+        aspect-ratio: 1 / 1;
       }
 
-      .widget.left {
-        background: var(--widget-white);
-        height: 230px;
-        color: var(--text);
+      .widget-calendar {
+        padding: 16px 14px 12px;
       }
 
-      .widget.right {
-        background: linear-gradient(180deg, #484d68 0%, #3a425d 100%);
-        height: 230px;
-        color: #f4f5f8;
+      .widget-weather {
+        padding: 16px 14px 12px;
+        background: linear-gradient(145deg, rgba(79,140,255,0.38), rgba(17,24,39,0.6));
       }
 
-      .widget-title {
-        font-size: 12px;
-        line-height: 1.2;
-        opacity: 0.9;
-      }
-
-      .widget-title.right {
-        color: rgba(255,255,255,0.92);
-      }
-
-      .temp-label {
-        margin-top: 14px;
-        font-size: 54px;
-        line-height: 1;
-        letter-spacing: -0.08em;
-        font-weight: 300;
-      }
-
-      .left .temp-label {
-        color: #131313;
-      }
-
-      .day-label {
-        margin-top: 12px;
-        font-size: 12px;
-        line-height: 1.5;
-        color: rgba(0,0,0,0.62);
-      }
-
-      .right .temp-label {
-        font-size: 56px;
-        margin-top: 2px;
-      }
-
-      .weather-grid {
-        margin-top: 8px;
+      .widget-header {
         display: flex;
         align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.76);
+      }
+
+      .widget-pill {
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.12);
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 8px;
       }
 
-      .weather-symbol {
-        width: 26px;
-        height: 26px;
-        position: relative;
-      }
-
-      .weather-symbol::before {
-        content: "";
-        position: absolute;
-        left: 5px;
-        top: 10px;
-        width: 18px;
-        height: 10px;
-        background: rgba(255,255,255,0.92);
-        border-radius: 8px;
-      }
-
-      .weather-symbol::after {
-        content: "";
-        position: absolute;
-        left: 7px;
-        top: 5px;
-        width: 14px;
-        height: 10px;
-        background: rgba(255,255,255,0.92);
-        border-radius: 9px 9px 5px 5px;
-      }
-
-      .subtext {
-        margin-top: 18px;
-        font-size: 17px;
-        line-height: 1.4;
-        letter-spacing: -0.03em;
-        color: rgba(255,255,255,0.9);
-      }
-
-      .forecast {
-        margin-top: 14px;
-        font-size: 15px;
-        color: rgba(255,255,255,0.82);
-      }
-
-      .widget-labels {
-        position: absolute;
-        top: 300px;
-        left: 18px;
-        right: 18px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        font-size: 14px;
-        color: rgba(255,255,255,0.78);
-      }
-
-      .widget-labels .left-label,
-      .widget-labels .right-label {
-        line-height: 1;
-        font-weight: 400;
-      }
-
-      .widget-labels .left-label {
-        color: rgba(255,255,255,0.7);
-        text-align: left;
-        padding-left: 10px;
-      }
-
-      .widget-labels .right-label {
-        color: rgba(255,255,255,0.7);
-        text-align: right;
-        padding-right: 10px;
-      }
-
-      .app-grid {
-        position: absolute;
-        top: 334px;
-        left: 18px;
-        right: 18px;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 22px 10px;
-        align-items: start;
-      }
-
-      .app {
+      .day-pill {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        justify-content: center;
+        gap: 6px;
+        min-height: 58px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.04);
+        color: rgba(255,255,255,0.7);
+        font-size: 9px;
       }
 
-      .app-icon {
-        width: 74px;
-        height: 74px;
-        border-radius: 18px;
-        position: relative;
-        overflow: hidden;
+      .day-pill strong {
+        font-size: 17px;
+        font-weight: 700;
+        color: white;
       }
 
-      .app-label {
-        font-size: 15px;
-        color: rgba(255,255,255,0.86);
-        line-height: 1.2;
-      }
-
-      .icon-phone {
-        background: linear-gradient(180deg, #6ad38f, #54c677 80%);
-      }
-
-      .icon-phone::before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 26px;
-        width: 40px;
-        height: 24px;
-        transform: translateX(-50%);
-        border-radius: 10px 10px 12px 12px;
-        border: 4px solid rgba(255,255,255,0.96);
-        border-bottom-width: 4px;
-      }
-
-      .icon-phone::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 22px;
-        width: 10px;
-        height: 10px;
-        transform: translateX(-50%);
-        border-radius: 50%;
-        background: rgba(255,255,255,0.96);
-        box-shadow: 0 0 0 4px rgba(255,255,255,0.08);
-      }
-
-      .icon-photos {
-        background: linear-gradient(135deg, #fef3a6, #ff8d63 20%, #ff4d7d 42%, #8644ff 72%, #5fd6ff 100%);
-      }
-
-      .icon-photos::before {
-        content: "";
-        position: absolute;
-        inset: 16px 16px 18px 16px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
-      }
-
-      .icon-photos::after {
-        content: "";
-        position: absolute;
-        right: 10px;
-        bottom: 10px;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
+      .day-pill.active {
         background: rgba(255,255,255,0.9);
-        box-shadow: -12px -10px 0 2px rgba(255,255,255,0.78), -8px -22px 0 -4px rgba(255,206,120,0.9);
+        color: #0c0d11;
       }
 
-      .icon-memo {
-        background: linear-gradient(180deg, #e8ebf1, #d2d7df);
+      .day-pill.active strong {
+        color: #0c0d11;
       }
 
-      .icon-memo::before {
-        content: "";
+      .weather-main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .weather-temp {
+        font-size: 34px;
+        font-weight: 300;
+        letter-spacing: -0.06em;
+        line-height: 1;
+      }
+
+      .weather-icon {
+        font-size: 24px;
+        filter: drop-shadow(0 0 18px rgba(255,255,255,0.22));
+      }
+
+      .weather-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        color: rgba(255,255,255,0.78);
+        margin-bottom: 10px;
+      }
+
+      .forecast-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .forecast-slot {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 4px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.08);
+        font-size: 9px;
+        color: rgba(255,255,255,0.8);
+      }
+
+      .forecast-slot strong {
+        font-size: 12px;
+        color: white;
+      }
+
+      .home-app-grid {
         position: absolute;
         left: 18px;
         right: 18px;
-        top: 16px;
-        bottom: 16px;
-        border-radius: 8px;
-        background: #f9fafb;
-        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+        bottom: 62px;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px 10px;
+        z-index: 1;
       }
 
-      .icon-memo::after {
-        content: "";
-        position: absolute;
-        left: 26px;
-        top: 28px;
-        width: 24px;
-        height: 2px;
-        background: rgba(0,0,0,0.16);
-        box-shadow: 0 8px 0 rgba(0,0,0,0.16), 0 16px 0 rgba(0,0,0,0.16);
-      }
-
-      .icon-clock {
-        background: linear-gradient(180deg, #f5f6f8, #dfe2e7);
-      }
-
-      .icon-clock::before {
-        content: "";
-        position: absolute;
-        inset: 13px;
-        border-radius: 50%;
-        background: #f8f8f8;
-        box-shadow: inset 0 0 0 2px rgba(0,0,0,0.08);
-      }
-
-      .icon-clock::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 2px;
-        height: 18px;
-        background: #4a4d59;
-        border-radius: 2px;
-        transform: translate(-50%, -50%) rotate(40deg);
-        transform-origin: bottom center;
-        box-shadow: 0 -12px 0 -9px rgba(0,0,0,0.8);
-      }
-
-      .icon-mail {
-        background: linear-gradient(180deg, #67c5ff, #3b9ff7);
-      }
-
-      .icon-mail::before {
-        content: "";
-        position: absolute;
-        left: 12px;
-        right: 12px;
-        top: 18px;
-        bottom: 18px;
-        border-radius: 12px;
-        background: #f4f7ff;
-        clip-path: polygon(0 0, 100% 0, 50% 54%);
-      }
-
-      .icon-mail::after {
-        content: "";
-        position: absolute;
-        left: 12px;
-        right: 12px;
-        top: 20px;
-        bottom: 18px;
-        border-radius: 10px;
-        background: linear-gradient(180deg, #f5f8ff, #eaf2ff);
-        clip-path: polygon(0 0, 100% 0, 0 100%, 0 100%);
-      }
-
-      .icon-safari {
-        background: linear-gradient(180deg, #d7e5ff, #7d90ff);
-      }
-
-      .icon-safari::before {
-        content: "";
-        position: absolute;
-        inset: 12px;
-        border-radius: 50%;
-        background: linear-gradient(180deg, #f8fafc, #dfe9ff);
-      }
-
-      .icon-safari::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 30px;
-        height: 30px;
-        transform: translate(-50%, -50%);
-        background: linear-gradient(180deg, #e7f4ff, #90d9ff);
-        border-radius: 50%;
-        box-shadow: inset 0 0 0 3px rgba(255,255,255,0.8);
-      }
-
-      .icon-settings {
-        background: linear-gradient(180deg, #d7dbe1, #a2a9b4);
-      }
-
-      .icon-settings::before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 42px;
-        height: 42px;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        border: 8px solid rgba(255,255,255,0.75);
-        box-shadow: 0 0 0 8px rgba(255,255,255,0.12);
-      }
-
-      .icon-settings::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 12px;
-        height: 12px;
-        transform: translate(-50%, -50%);
-        background: rgba(255,255,255,0.82);
-        border-radius: 50%;
-      }
-
-      .search-bar {
-        position: absolute;
-        left: 50%;
-        bottom: 120px;
-        transform: translateX(-50%);
-        width: 190px;
-        height: 40px;
-        border-radius: 20px;
-        background: rgba(255,255,255,0.12);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        color: rgba(255,255,255,0.84);
-        font-size: 16px;
-      }
-
-      .search-glass {
+      .app-icon {
         position: relative;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        border: 2px solid rgba(255,255,255,0.8);
-      }
-
-      .search-glass::after {
-        content: "";
-        position: absolute;
-        width: 7px;
-        height: 2px;
-        border-radius: 2px;
-        background: rgba(255,255,255,0.8);
-        right: -5px;
-        bottom: -1px;
-        transform: rotate(45deg);
-      }
-
-      .dock {
-        position: absolute;
-        left: 16px;
-        right: 16px;
-        bottom: 14px;
-        height: 92px;
-        border-radius: 28px;
-        background: rgba(255,255,255,0.08);
-        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
         display: flex;
-        align-items: center;
-        justify-content: space-around;
-        padding: 0 12px;
-      }
-
-      .dock-app {
-        width: 58px;
+        align-items: flex-end;
+        justify-content: center;
         height: 58px;
         border-radius: 18px;
-        position: relative;
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.22);
         overflow: hidden;
       }
 
-      .dock-app.instagram {
-        background: linear-gradient(135deg, #ffc75a 0%, #ff4d9d 30%, #8247ff 65%, #2f8cff 100%);
-      }
-
-      .dock-app.instagram::before {
+      .app-icon::before {
         content: "";
         position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 24px;
-        height: 24px;
-        transform: translate(-50%, -50%);
+        inset: 10px 10px auto 10px;
+        height: 22px;
         border-radius: 8px;
-        border: 3px solid rgba(255,255,255,0.9);
+        background: rgba(255,255,255,0.12);
       }
 
-      .dock-app.instagram::after {
-        content: "";
+      .app-icon span {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 8px;
+        font-size: 9px;
+        line-height: 1.2;
+        text-align: center;
+        color: rgba(255,255,255,0.96);
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        max-width: 90%;
+      }
+
+      .memo { background: linear-gradient(180deg, #d5d7dc 0%, #afb5c0 100%); }
+      .calendar { background: linear-gradient(180deg, #f7d98e 0%, #eb8d5b 100%); }
+      .browser { background: linear-gradient(180deg, #59d3ff 0%, #2b7fff 100%); }
+      .contacts { background: linear-gradient(180deg, #76d0a2 0%, #2ea873 100%); }
+      .instagram { background: linear-gradient(135deg, #ffdd55 0%, #ff5e7d 26%, #7c3aed 66%, #2cc5ff 100%); }
+
+      .home-dock {
         position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 8px;
-        height: 8px;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background: rgba(255,255,255,0.9);
-        box-shadow: -10px -11px 0 0 rgba(255,255,255,0.9), 10px -11px 0 0 rgba(255,255,255,0.9);
+        left: 12px;
+        right: 12px;
+        bottom: 16px;
+        height: 52px;
+        border-radius: 18px;
+        background: rgba(255,255,255,0.12);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+        z-index: 1;
       }
 
-      .dock-app.talk {
-        background: #f9f4e8;
-      }
-
-      .dock-app.talk::before {
-        content: "TALK";
+      .unlock-success {
         position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: -0.04em;
-        color: #1d1d1d;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 18px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.35s ease, visibility 0.35s ease;
+        background: rgba(255,255,255,0.03);
       }
 
-      .dock-app.youtube {
-        background: #f5f5f5;
-      }
-
-      .dock-app.youtube::before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 0;
-        height: 0;
-        transform: translate(-50%, -50%);
-        border-left: 14px solid #ff2c2c;
-        border-top: 9px solid transparent;
-        border-bottom: 9px solid transparent;
-      }
-
-      .dock-app.x {
-        background: #111111;
-      }
-
-      .dock-app.x::before,
-      .dock-app.x::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 28px;
-        height: 3px;
-        background: rgba(255,255,255,0.9);
-        border-radius: 3px;
-      }
-
-      .dock-app.x::before {
-        transform: translate(-50%, -50%) rotate(45deg);
-      }
-
-      .dock-app.x::after {
-        transform: translate(-50%, -50%) rotate(-45deg);
+      .unlock-success.visible {
+        opacity: 1;
+        visibility: visible;
       }
 
       .home-indicator {
         position: absolute;
-        bottom: 9px;
+        bottom: 8px;
         left: 50%;
         transform: translateX(-50%);
-        width: 124px;
+        width: 120px;
         height: 4px;
         border-radius: 999px;
-        background: rgba(255,255,255,0.85);
+        background: rgba(255,255,255,0.9);
+        z-index: 30;
       }
 
       @media (max-width: 420px) {
-        .phone {
+        .phone-shell {
           width: 100vw;
           height: 100vh;
+          border-radius: 0;
+          padding: 0;
+          background: #000;
+        }
+
+        .phone {
+          border-radius: 0;
         }
       }
     </style>
   </head>
   <body>
-    <div class="phone">
-      <div class="status-bar">
-        <div class="dynamic-island" aria-hidden="true"></div>
-        <div class="time">9:46</div>
-        <div class="status-icons">
-          <div class="signal" aria-hidden="true"></div>
-          <div class="wifi" aria-hidden="true"></div>
-          <div class="battery" aria-hidden="true"></div>
-        </div>
-      </div>
+    <div class="phone-shell">
+      <div class="phone">
+        <div class="notch"></div>
 
-      <div class="home-screen" aria-label="홈 화면">
-        <div class="top-row">
-          <div class="widget left">
-            <div class="widget-title">일요일</div>
-            <div class="temp-label">25</div>
-            <div class="day-label">오늘 이벤트 없음</div>
+        <div class="status-bar" aria-hidden="true">
+          <div class="dynamic-island"></div>
+          <div class="status-cluster">
+            <span class="status-dot"></span>
+            <span class="battery" aria-label="배터리"></span>
           </div>
+        </div>
 
-          <div class="widget right">
-            <div class="widget-title right">화성시</div>
-            <div class="temp-label">17°</div>
-            <div class="weather-grid">
-              <div class="weather-symbol" aria-hidden="true"></div>
+        <div class="screen"></div>
+
+        <div class="home-screen" id="homeScreen">
+          <div class="home-content">
+            <div class="widget widget-calendar">
+              <div class="widget-header">
+                <span>Calendar</span>
+                <span class="widget-pill">+2</span>
+              </div>
+
+              <div class="calendar-grid">
+                <div class="day-pill"><span>월</span><strong>12</strong></div>
+                <div class="day-pill"><span>화</span><strong>13</strong></div>
+                <div class="day-pill active"><span>수</span><strong>14</strong></div>
+                <div class="day-pill"><span>목</span><strong>15</strong></div>
+                <div class="day-pill"><span>금</span><strong>16</strong></div>
+              </div>
             </div>
-            <div class="subtext">부분적으로 흐림</div>
-            <div class="forecast">최고:23° 최저:12°</div>
+
+            <div class="widget widget-weather">
+              <div class="widget-header">
+                <span>Weather</span>
+                <span class="widget-pill">Seoul</span>
+              </div>
+
+              <div class="weather-main">
+                <div class="weather-temp">23°</div>
+                <div class="weather-icon">☀️</div>
+              </div>
+
+              <div class="weather-meta">
+                <span>맑음</span>
+                <span>12km/h</span>
+              </div>
+
+              <div class="forecast-row">
+                <div class="forecast-slot"><span>오후</span><strong>27°</strong></div>
+                <div class="forecast-slot"><span>저녁</span><strong>22°</strong></div>
+                <div class="forecast-slot"><span>내일</span><strong>24°</strong></div>
+                <div class="forecast-slot"><span>월</span><strong>21°</strong></div>
+              </div>
+            </div>
           </div>
+
+          <div class="home-app-grid">
+            <div class="app-icon memo"><span>메모</span></div>
+            <div class="app-icon calendar"><span>캘린더</span></div>
+            <div class="app-icon browser"><span>인터넷</span></div>
+            <div class="app-icon contacts"><span>연락처</span></div>
+            <div class="app-icon instagram"><span>인스타</span></div>
+          </div>
+          <div class="home-dock"></div>
         </div>
 
-        <div class="widget-labels">
-          <div class="left-label">캘린더</div>
-          <div class="right-label">날씨</div>
+        <div class="lock-screen" id="lockScreen">
+          <div class="lock-top">
+            <div class="lock-time" id="time">9:41</div>
+            <div class="lock-date">금요일, 12월 30일</div>
+          </div>
+
+          <div class="swipe-zone" id="swipeZone">
+            <div class="swipe-indicator"></div>
+          </div>
+
+          <div class="passcode-panel" id="passcodePanel">
+            <div class="passcode-label">암호 입력</div>
+            <div class="passcode-dot-row" id="passcodeDots"></div>
+            <div class="keypad">
+              <button class="key" type="button">1</button>
+              <button class="key" type="button">2</button>
+              <button class="key" type="button">3</button>
+              <button class="key" type="button">4</button>
+              <button class="key" type="button">5</button>
+              <button class="key" type="button">6</button>
+              <button class="key" type="button">7</button>
+              <button class="key" type="button">8</button>
+              <button class="key" type="button">9</button>
+              <button class="key action" type="button" id="clearPasscode">삭제</button>
+              <button class="key" type="button">0</button>
+              <div class="key spacer" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <div class="unlock-success" id="unlockSuccess">Unlocked</div>
         </div>
 
-        <div class="app-grid">
-          <div class="app">
-            <div class="app-icon icon-phone"></div>
-            <div class="app-label">전화</div>
-          </div>
-          <div class="app">
-            <div class="app-icon icon-photos"></div>
-            <div class="app-label">사진</div>
-          </div>
-          <div class="app">
-            <div class="app-icon icon-memo"></div>
-            <div class="app-label">메모</div>
-          </div>
-          <div class="app">
-            <div class="app-icon icon-clock"></div>
-            <div class="app-label">시계</div>
-          </div>
-          <div class="app">
-            <div class="app-icon icon-mail"></div>
-            <div class="app-label">Mail</div>
-          </div>
-          <div class="app">
-            <div class="app-icon icon-safari"></div>
-            <div class="app-label">Safari</div>
-          </div>
-          <div class="app">
-            <div class="app-icon icon-settings"></div>
-            <div class="app-label">설정</div>
-          </div>
-        </div>
-
-        <div class="search-bar" aria-label="검색">
-          <div class="search-glass" aria-hidden="true"></div>
-          <span>검색</span>
-        </div>
-
-        <div class="dock" aria-label="독">
-          <div class="dock-app instagram"></div>
-          <div class="dock-app talk"></div>
-          <div class="dock-app youtube"></div>
-          <div class="dock-app x"></div>
-        </div>
-
-        <div class="home-indicator" aria-hidden="true"></div>
+        <div class="home-indicator"></div>
       </div>
     </div>
+
+    <script>
+      const timeEl = document.getElementById('time');
+      const updateClock = () => {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const formatted = `${hours}:${minutes}`;
+        timeEl.textContent = formatted;
+      };
+      updateClock();
+      setInterval(updateClock, 30000);
+
+      const lockScreen = document.getElementById('lockScreen');
+      const passcodePanel = document.getElementById('passcodePanel');
+      const passcodeDots = document.getElementById('passcodeDots');
+      const unlockSuccess = document.getElementById('unlockSuccess');
+      const swipeZone = document.getElementById('swipeZone');
+      const homeScreen = document.getElementById('homeScreen');
+      const keypadButtons = Array.from(document.querySelectorAll('.key'));
+      let enteredCode = '';
+      let touchStartY = 0;
+      let swipeActive = false;
+
+      const renderDots = () => {
+        passcodeDots.innerHTML = '';
+        for (let i = 0; i < 4; i += 1) {
+          const dot = document.createElement('span');
+          dot.className = 'pin-dot' + (i < enteredCode.length ? ' filled' : '');
+          passcodeDots.appendChild(dot);
+        }
+      };
+
+      const showPasscode = () => {
+        passcodePanel.classList.add('visible');
+        lockScreen.classList.add('passcode-visible');
+      };
+
+      const hidePasscode = () => {
+        passcodePanel.classList.remove('visible');
+        lockScreen.classList.remove('passcode-visible');
+      };
+
+      const unlockPhone = () => {
+        hidePasscode();
+        lockScreen.classList.add('hidden');
+        homeScreen.classList.add('visible');
+      };
+
+      const resetPasscode = () => {
+        enteredCode = '';
+        renderDots();
+      };
+
+      const handleNumberInput = (value) => {
+        if (enteredCode.length >= 4) return;
+        enteredCode += value;
+        renderDots();
+
+        if (enteredCode.length === 4) {
+          setTimeout(() => {
+            unlockPhone();
+            resetPasscode();
+          }, 180);
+        }
+      };
+
+      keypadButtons.forEach((button) => {
+        const value = button.textContent.trim();
+
+        if (button.id === 'clearPasscode') {
+          button.addEventListener('click', () => {
+            enteredCode = enteredCode.slice(0, -1);
+            renderDots();
+          });
+          return;
+        }
+
+        if (button.classList.contains('spacer')) {
+          return;
+        }
+
+        if (/^[0-9]$/.test(value)) {
+          button.addEventListener('click', () => handleNumberInput(value));
+        }
+      });
+
+      swipeZone.addEventListener('touchstart', (event) => {
+        touchStartY = event.touches[0].clientY;
+        swipeActive = true;
+      }, { passive: true });
+
+      swipeZone.addEventListener('touchmove', (event) => {
+        if (!swipeActive) return;
+        const deltaY = touchStartY - event.touches[0].clientY;
+        if (deltaY > 40) {
+          showPasscode();
+          swipeActive = false;
+        }
+      }, { passive: true });
+
+      swipeZone.addEventListener('mousedown', (event) => {
+        touchStartY = event.clientY;
+        swipeActive = true;
+      });
+
+      swipeZone.addEventListener('mousemove', (event) => {
+        if (!swipeActive) return;
+        const deltaY = touchStartY - event.clientY;
+        if (deltaY > 40) {
+          showPasscode();
+          swipeActive = false;
+        }
+      });
+
+      swipeZone.addEventListener('mouseup', () => {
+        swipeActive = false;
+      });
+
+      swipeZone.addEventListener('mouseleave', () => {
+        swipeActive = false;
+      });
+
+      renderDots();
+    </script>
   </body>
 </html>
